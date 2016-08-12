@@ -1,7 +1,4 @@
 from bs4 import BeautifulSoup
-import multiprocessing
-import time
-import random
 import sqlite3
 
 def scrape_html(poke_id, poke_html):
