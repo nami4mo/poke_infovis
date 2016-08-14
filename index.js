@@ -84,10 +84,11 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
   }
 
   // ------------- 表の設定 ------------
-  var x_value_name = $("label[for='"+$("input:radio[name='x-radiobtn']:checked").attr("id")+"']").text();
-  var y_value_name = $("label[for='"+$("input:radio[name='y-radiobtn']:checked").attr("id")+"']").text();
-  $("#col-x").text(x_value_name);
-  $("#col-y").text(y_value_name);
+  // TODO: どっちのグラフでもできるように
+  // var x_value_name = $("label[for='"+$("input:radio[name='"+c_flag+"x-radiobtn']:checked").attr("id")+"']").text();
+  // var y_value_name = $("label[for='"+$("input:radio[name='"+c_flag+"y-radiobtn']:checked").attr("id")+"']").text();
+  $("#col-x").text("");
+  $("#col-y").text("");
   $(".selected-pokemon").remove();
 
 
@@ -319,6 +320,10 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
       rect_x_range = [xScale.invert(rect_x), xScale.invert(rect_x + rect_w)];
       rect_y_range = [yScale.invert(rect_y + rect_h), yScale.invert(rect_y)];
       console.log(rect_x_range, rect_y_range);
+      var x_value_name = $("label[for='"+$("input:radio[name='"+c_flag+"x-radiobtn']:checked").attr("id")+"']").text();
+      var y_value_name = $("label[for='"+$("input:radio[name='"+c_flag+"y-radiobtn']:checked").attr("id")+"']").text();
+      $("#col-x").text(x_value_name);
+      $("#col-y").text(y_value_name);
       show_selected_pokemons(rect_x_range, rect_y_range, x_value, y_value, showed_pokes);
     }
   });

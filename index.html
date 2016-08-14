@@ -50,11 +50,11 @@
 
       <div id="control-bars-area" class="control-bars-area">
         <div class="bar-area">
-          <span>x: 0 ~ </span><span id="x-bar-value"></span>
+          <span>X: 0 ~ </span><span id="x-bar-value"></span>
           <input type="range" id="x-range" class="max-control-bar" min=0 max=1 step=0.1 value=1>
         </div>
         <div class="bar-area">
-          <span>y: 0 ~ </span><span id="y-bar-value"></span>
+          <span>Y: 0 ~ </span><span id="y-bar-value"></span>
           <input type="range" id="y-range" class="max-control-bar" min=0 max=1 step=1 value=1>
         </div>
       </div>
@@ -102,6 +102,23 @@
       </div>
     </div>
 
+    <!-- TODO: rightとcenterを変える -->
+    <div id="right-content">
+      <div id="selected-pokemons-area">
+        <table id="pokemons-table" class="table table-hover table-headerfixed">
+          <thead>
+            <tr>
+              <th id="col-name" width="50%">名前</th>
+              <th id="col-x" class="col-value" width="25%"></th>
+              <th id="col-y" class="col-value" width="25%"></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <div id="center-content">
       <div id="c-select-buttons-area" class="select-buttons-area">
         <div id="c-x-buttons" class="group x-buttons">
@@ -132,11 +149,11 @@
 
       <div id="c-control-bars-area" class="control-bars-area">
         <div class="bar-area">
-          <span>x: 0 ~ </span><span id="c-x-bar-value"></span>
+          <span>X: 0 ~ </span><span id="c-x-bar-value"></span>
           <input type="range" id="c-x-range" class="max-control-bar" min=0 max=1 step=0.1 value=1>
         </div>
         <div class="bar-area">
-          <span>y: 0 ~ </span><span id="c-y-bar-value"></span>
+          <span>Y: 0 ~ </span><span id="c-y-bar-value"></span>
           <input type="range" id="c-y-range" class="max-control-bar" min=0 max=1 step=1 value=1>
         </div>
       </div>
@@ -163,7 +180,7 @@
         <input type="checkbox" value="じめん" id="c-type-9" name="type" checked="checked"/><label for="c-type-9" style="background-color:rgb(230,209,153);">地</label>
         <input type="checkbox" value="ひこう" id="c-type-10" name="type" checked="checked"/><label for="c-type-10" style="background-color:rgb(178,192,232);">飛</label>
         <br />
-        
+
         <input type="checkbox" value="エスパー" id="c-type-11" name="type" checked="checked"/><label for="c-type-11" style="background-color:rgb(214,123,157);">超</label>
         <input type="checkbox" value="むし" id="c-type-12" name="type" checked="checked"/><label for="c-type-12" style="background-color:rgb(190,180,100);">虫</label>
         <input type="checkbox" value="いわ" id="c-type-13" name="type" checked="checked"/><label for="c-type-13" style="background-color:rgb(192,165,100);">岩</label>
@@ -185,21 +202,7 @@
       </div>
     </div>
 
-    <div id="right-content">
-      <div id="selected-pokemons-area">
-        <table id="pokemons-table" class="table table-hover table-headerfixed">
-          <thead>
-            <tr>
-              <th id="col-name" width="50%">名前</th>
-              <th id="col-x" class="col-value" width="25%"></th>
-              <th id="col-y" class="col-value" width="25%"></th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-    </div>
+
 
   </div>
 </body>

@@ -26,7 +26,7 @@ span.tooltip{
 
 #content{
   margin: 20px;
-  width: 1200px;
+  width: 1330px;
 }
 
 #left-content{
@@ -37,10 +37,11 @@ span.tooltip{
 #center-content{
   width: 550px;
   float: left;
+  margin-left: 30px;
 }
 
 #right-content{
-  width: 350px;
+  width: 200px;
   float: left;
 }
 
@@ -128,7 +129,8 @@ span.tooltip{
 
 /*参考: http://jsdo.it/mottsu/zccO*/
 table.table-headerfixed {
-  width: 300px;
+  margin-top: 330px;
+  width: 200px;
   border-bottom: 2px solid #ccc;
 }
 table.table-headerfixed thead,
@@ -145,7 +147,7 @@ table.table-headerfixed tr:after {
     clear: both;
 }
 table.table-headerfixed tbody {
-    height: 280px;
+    height: 330px;
     overflow-y: scroll;
 }
 table.table-headerfixed thead {
