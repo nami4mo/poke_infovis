@@ -11,7 +11,7 @@
 }
 
 /*参考: http://bl.ocks.org/hunzy/8647349*/
-span.tooltip{
+span#tooltip{
   position: absolute;
   z-index: 10;
   visibility: hidden;
@@ -30,25 +30,12 @@ span.tooltip{
 }
 
 #left-content{
-  width: 550px;
+  width: 650px;
   float: left;
+  /*background-color: red;*/
 }
 
-#center-content{
-  width: 550px;
-  float: left;
-}
-
-#right-content{
-  width: 350px;
-  float: left;
-}
-
-.select-buttons-area{
-  width: 100%;
-}
-
-.select-buttons-area .ui-button{
+#select-buttons-area .ui-button{
   height:30px;
   line-height: 18px;
   width:52px;
@@ -56,18 +43,18 @@ span.tooltip{
   border: solid 1px #afb6d8;
 }
 
-.evolve-select-area .ui-button{
+#evolve-select-area .ui-button{
   background-color: #73a9e0;
   border: 1px solid #ccc;
 }
 
-.select-buttons-area label:not(.ui-state-active){
+#select-buttons-area label:not(.ui-state-active){
   color: #999;
   border: 1px solid #e5e5e5 !important;
   background-color: #f6f6f6 !important;
 }
 
-.evolve-select-area label:not(.ui-state-active){
+#evolve-select-area label:not(.ui-state-active){
   color: #999;
   border: 1px solid #e5e5e5 !important;
   background-color: #f6f6f6 !important;
@@ -77,31 +64,20 @@ span.tooltip{
   box-shadow: 0 0 0 0 !important;
 }
 
-.select-buttons-area .ui-state-active{
+#select-buttons-area .ui-state-active{
   box-shadow: 0 0 3px 1px rgb(94,158,214) !important;
 }
 
-.type-select-area label{
+#type-select-area label{
   color:#000;
   border: 1px solid #ccc;
-  font-size: 14px;
+  font-size: 15px;
   height: 30px;
   line-height: 18px;
-  width: 45px;
+  width: 50px;
 }
 
-.type-select-area .clear-button{
-  color:#000;
-  border: 1px solid #aaa;
-  font-size: 12px;
-  height: 24px;
-  /*line-height: 10px;*/
-  margin-top: -5px;
-  box-shadow: 0 0 0 0 !important;
-}
-
-
-.type-select-area label:not(.ui-state-active){
+#type-select-area label:not(.ui-state-active){
   /*font-size: 14px;*/
   color: #999;
   border: 1px solid #e5e5e5 !important;
@@ -110,7 +86,7 @@ span.tooltip{
 
 
 
-.control-bars-area{
+#control-bars-area{
   margin-top: 10px;
   width: 500px;
 }
@@ -123,7 +99,10 @@ span.tooltip{
   width: 200px;
 }*/
 
-
+#right-content{
+  width: 350px;
+  float: left;
+}
 
 
 /*参考: http://jsdo.it/mottsu/zccO*/
@@ -163,13 +142,6 @@ table.table-headerfixed thead th {
 
 .col-value:hover {
   background-color: #ddd;
-}
-
-*:focus {
-    outline: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
 }
 
 .clearfix:after {

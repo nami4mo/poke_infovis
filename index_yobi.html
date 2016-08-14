@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Poke InfoVis</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="stylesheet" type="text/css" href="./libs/jquery-ui-1.12.0/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="./libs/jquery-ui-1.12.0/jquery-ui.structure.min.css">
+<link rel="stylesheet" type="text/css" href="./libs/jquery-ui-1.12.0/jquery-ui.theme.min.css">
+<link rel="stylesheet" type="text/css" href="./libs/jquery-ui-1.12.0/jquery-ui.min.css">
+<link href="./libs/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="./libs/d3.min.js"></script>
+<script type="text/javascript" src="./libs/jquery-1.11.3.min.js"></script>
+<script src="./libs/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="./libs/jquery-ui-1.12.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="./index.js"></script>
+
+</head>
+<body>
+
+  <div id="content" class="clearfix">
+    <div id="left-content">
+      <div id="select-buttons-area">
+        <div id="x-buttons" class="group">
+          <span>x軸: </span>
+          <input type="radio" name="x-radiobtn" value="height" id="x-height-btn" checked="checked"/><label for="x-height-btn">高さ</label>
+          <input type="radio" name="x-radiobtn" value="weight" id="x-weight-btn"/><label for="x-weight-btn">重さ</label>
+          <input type="radio" name="x-radiobtn" value="bmi" id="x-bmi-btn"/><label for="x-bmi-btn">BMI</label>
+          <input type="radio" name="x-radiobtn" value="bs_h" id="x-h-btn"/><label for="x-h-btn">HP</label>
+          <input type="radio" name="x-radiobtn" value="bs_a" id="x-a-btn"/><label for="x-a-btn">攻撃</label>
+          <input type="radio" name="x-radiobtn" value="bs_b" id="x-b-btn"/><label for="x-b-btn">防御</label>
+          <input type="radio" name="x-radiobtn" value="bs_c" id="x-c-btn"/><label for="x-c-btn">特攻</label>
+          <input type="radio" name="x-radiobtn" value="bs_d" id="x-d-btn"/><label for="x-d-btn">特防</label>
+          <input type="radio" name="x-radiobtn" value="bs_s" id="x-s-btn"/><label for="x-s-btn">素早</label>
+        </div>
+        <div id="y-buttons">
+          <span>y軸: </span>
+          <input type="radio" name="y-radiobtn" value="height" id="y-height-btn"/><label for="y-height-btn">高さ</label>
+          <input type="radio" name="y-radiobtn" value="weight" id="y-weight-btn"  checked="checked"/><label for="y-weight-btn">重さ</label>
+          <input type="radio" name="y-radiobtn" value="bmi" id="y-bmi-btn"/><label for="y-bmi-btn">BMI</label>
+          <input type="radio" name="y-radiobtn" value="bs_h" id="y-h-btn"/><label for="y-h-btn">HP</label>
+          <input type="radio" name="y-radiobtn" value="bs_a" id="y-a-btn"/><label for="y-a-btn">攻撃</label>
+          <input type="radio" name="y-radiobtn" value="bs_b" id="y-b-btn"/><label for="y-b-btn">防御</label>
+          <input type="radio" name="y-radiobtn" value="bs_c" id="y-c-btn"/><label for="y-c-btn">特攻</label>
+          <input type="radio" name="y-radiobtn" value="bs_d" id="y-d-btn"/><label for="y-d-btn">特防</label>
+          <input type="radio" name="y-radiobtn" value="bs_s" id="y-s-btn"/><label for="y-s-btn">素早</label>
+        </div>
+      </div>
+
+      <div id="control-bars-area">
+        <div class="bar-area">
+          <span>x: 0 ~ </span><span id="x-bar-value"></span>
+          <input type="range" id="x-range" class="max-control-bar" min=0 max=1 step=0.1 value=1>
+        </div>
+        <div class="bar-area">
+          <span>y: 0 ~ </span><span id="y-bar-value"></span>
+          <input type="range" id="y-range" class="max-control-bar" min=0 max=1 step=1 value=1>
+        </div>
+      </div>
+
+      <div id="evolve-select-area">
+        <span>進化: </span>
+        <input type="checkbox" value="1/1" id="e-1-1" name="evolve" checked="checked"/><label for="e-1-1">1/1</label>
+        <input type="checkbox" value="1/2" id="e-1-2" name="evolve" checked="checked"/><label for="e-1-2">1/2</label>
+        <input type="checkbox" value="2/2" id="e-2-2" name="evolve" checked="checked"/><label for="e-2-2">2/2</label>
+        <input type="checkbox" value="1/3" id="e-1-3" name="evolve" checked="checked"/><label for="e-1-3">1/3</label>
+        <input type="checkbox" value="2/3" id="e-2-3" name="evolve" checked="checked"/><label for="e-2-3">2/3</label>
+        <input type="checkbox" value="3/3" id="e-3-3" name="evolve" checked="checked"/><label for="e-3-3">3/3</label>
+      </div>
+
+      <div id="type-select-area">
+        <input type="checkbox" value="ノーマル" id="type-1" name="type" checked="checked"/><label for="type-1" style="background-color:rgb(185,182,150);">ノ</label>
+        <input type="checkbox" value="ほのお" id="type-2" name="type" checked="checked"/><label for="type-2" style="background-color:rgb(207,103,83);">炎</label>
+        <input type="checkbox" value="みず" id="type-3" name="type" checked="checked"/><label for="type-3" style="background-color:rgb(126,185,231);">水</label>
+        <input type="checkbox" value="でんき" id="type-4" name="type" checked="checked"/><label for="type-4" style="background-color:rgb(240,210,128);">電</label>
+        <input type="checkbox" value="くさ" id="type-5" name="type" checked="checked"/><label for="type-5" style="background-color:rgb(160,192,123);">草</label>
+        <input type="checkbox" value="こおり" id="type-6" name="type" checked="checked"/><label for="type-6" style="background-color:rgb(192,228,230);">氷</label>
+        <input type="checkbox" value="かくとう" id="type-7" name="type" checked="checked"/><label for="type-7" style="background-color:rgb(127,62,53);">格</label>
+        <input type="checkbox" value="どく" id="type-8" name="type" checked="checked"/><label for="type-8" style="background-color:rgb(146,106,166);">毒</label>
+        <input type="checkbox" value="じめん" id="type-9" name="type" checked="checked"/><label for="type-9" style="background-color:rgb(230,209,153);">地</label>
+        <br />
+        <input type="checkbox" value="ひこう" id="type-10" name="type" checked="checked"/><label for="type-10" style="background-color:rgb(178,192,232);">飛</label>
+        <input type="checkbox" value="エスパー" id="type-11" name="type" checked="checked"/><label for="type-11" style="background-color:rgb(214,123,157);">超</label>
+        <input type="checkbox" value="むし" id="type-12" name="type" checked="checked"/><label for="type-12" style="background-color:rgb(190,180,100);">虫</label>
+        <input type="checkbox" value="いわ" id="type-13" name="type" checked="checked"/><label for="type-13" style="background-color:rgb(192,165,100);">岩</label>
+        <input type="checkbox" value="ゴースト" id="type-14" name="type" checked="checked"/><label for="type-14" style="background-color:rgb(119,119,171);">霊</label>
+        <input type="checkbox" value="ドラゴン" id="type-15" name="type" checked="checked"/><label for="type-15" style="background-color:rgb(102,142,224);">竜</label>
+        <input type="checkbox" value="あく" id="type-16" name="type" checked="checked"/><label for="type-16" style="background-color:rgb(106,90,79);">悪</label>
+        <input type="checkbox" value="はがね" id="type-17" name="type" checked="checked"/><label for="type-17" style="background-color:rgb(201,212,223);">鋼</label>
+        <input type="checkbox" value="フェアリー" id="type-18" name="type" checked="checked"/><label for="type-18" style="background-color:rgb(237,156,188);">妖</label>
+      </div>
+
+      <div id="search-area">
+        <input type="text" name="name" size="30">
+        <button>serach</button>
+      </div>
+
+      <div id="graph">
+        <span id="tooltip"></span>
+      </div>
+    </div>
+
+    <div id="right-content">
+      <div id="selected-pokemons-area">
+        <table id="pokemons-table" class="table table-hover table-headerfixed">
+          <thead>
+            <tr>
+              <th id="col-name" width="50%">名前</th>
+              <th id="col-x" class="col-value" width="25%"></th>
+              <th id="col-y" class="col-value" width="25%"></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

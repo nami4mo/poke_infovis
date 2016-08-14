@@ -1,28 +1,18 @@
-var w = 500;
+var w = 600;
 var h = 400;
 var padding = 30;
 var svg;
-var c_svg;
+var svg2;
 
 $(function(){
+  $(".bar-area input").slider();
   $("#x-buttons input").button();
   $("#y-buttons input").button();
   $("#evolve-select-area input").button();
   $("#type-select-area input").button();
-  $("#type-select-area button").button();
   $("#search-area button").button();
   // 参考:http://stackoverflow.com/questions/6802085/jquery-ui-styled-text-input-box
   $("#search-area input").button()
-  .css({'text-align':'left','outline':'none','cursor':'text'});
-
-  $("#c-x-buttons input").button();
-  $("#c-y-buttons input").button();
-  $("#c-evolve-select-area input").button();
-  $("#c-type-select-area input").button();
-  $("#c-type-select-area button").button();
-  $("#c-search-area button").button();
-  // 参考:http://stackoverflow.com/questions/6802085/jquery-ui-styled-text-input-box
-  $("#c-search-area input").button()
   .css({'text-align':'left','outline':'none','cursor':'text'});
 
   // csvの読み込み
@@ -40,10 +30,6 @@ $(function(){
       .append("svg")
       .attr("width", w)
       .attr("height", h);
-      c_svg = d3.select("#c-graph")
-      .append("svg")
-      .attr("width", w)
-      .attr("height", h);
       var evolve = ["1/1","1/2","2/2","1/3","2/3","3/3"];
       var types = ["ノーマル","ほのお","みず","でんき","くさ","こおり",
                    "かくとう","どく","じめん","ひこう","エスパー","むし",
@@ -51,26 +37,18 @@ $(function(){
       // グラフ描画
       // -1 は スライダーによる範囲選択を行っていない状態を表す
       // もし負の値のデータも扱うようになれば、これを改善する必要がある
-      createGraph(data,"height","weight",-1,-1,evolve,types,"");
-      createGraph(data,"height","weight",-1,-1,evolve,types,"c-");
+      createGraph(data,"height","weight",-1,-1,evolve,types);
     }
   });
 });
 
 
-function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max, selected_evolutions, selected_types, c_flag){
-
-  var curr_svg = (c_flag=="") ? svg : c_svg;
+function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max, selected_evolutions, selected_types){
 
   // ------------- 前のグラフの削除------------
-  curr_svg.selectAll("*").remove();
-  // if(c_flag == ""){
-  //   console.log("aaa");
-  //   svg.selectAll("*").remove();
-  // }
-  // else{
-  //   c_svg.selectAll("*").remove();
-  // }
+  if(svg){
+    svg.selectAll("*").remove();
+  }
 
   // ------------- 表示するポケモンのリスト ------------
   // タイプと進化段階で判断
@@ -104,89 +82,85 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
     selected_y_max = y_max;
   }
 
+
+  // -------------- 表の設定 ---------------
+  $("#table-x-col").text( $("label[for='"+$("input:radio[name='x-radiobtn']:checked").attr("id")+"']").text() );
+  $("#table-y-col").text( $("label[for='"+$("input:radio[name='y-radiobtn']:checked").attr("id")+"']").text() );
+
   // -------------- バーの設定 --------------
-  $("#"+c_flag+"x-range")
+  $('#x-range')
   .off()
-  .attr("max",x_max)
-  .attr("step",function(){
+  .attr('max',x_max)
+  .attr('step',function(){
     if(x_value == "height") return 0.1;
     else return 1;
   })
   .val(selected_x_max)
   .on("input",function(){
-    $("#"+c_flag+"x-bar-value").text($(this).val());
+    $('#x-bar-value').text($(this).val());
   })
   .on("change",function(){
-    createGraph( poke_data, x_value, y_value, $(this).val(), $("#"+c_flag+"y-range").val(), selected_evolutions, selected_types, c_flag );
+    createGraph( poke_data, x_value, y_value, $(this).val(), $("#y-range").val(), selected_evolutions, selected_types );
   });
-  $("#"+c_flag+"x-bar-value").text( $("#"+c_flag+"x-range").val() );
+  $('#x-bar-value').text( $('#x-range').val() );
 
-  $("#"+c_flag+"y-range")
+  $('#y-range')
   .off()
-  .attr("max",y_max)
-  .attr("step",function(){
+  .attr('max',y_max)
+  .attr('step',function(){
     if(y_value == "height") return 0.1;
     else return 1;
   })
   .val(selected_y_max)
   .on("input",function(){
-    $("#"+c_flag+"y-bar-value").text($(this).val());
+    $('#y-bar-value').text($(this).val());
   })
   .on("change",function(){
-    createGraph( poke_data, x_value, y_value, $("#"+c_flag+"x-range").val(), $(this).val(), selected_evolutions, selected_types, c_flag );
+    createGraph( poke_data, x_value, y_value, $("#x-range").val(), $(this).val(), selected_evolutions, selected_types );
   });
-  $("#"+c_flag+"y-bar-value").text( $("#"+c_flag+"y-range").val() );
+  $('#y-bar-value').text( $('#y-range').val() );
 
 
   // ----------- XYのボタン設定 --------------
-  $("#"+c_flag+"select-buttons-area input")
+  $("#select-buttons-area input")
   .off("change")
   .on("change",function(){
     // offでなぜか解除されるので
-    $("#"+c_flag+"x-buttons input").button();
-    $("#"+c_flag+"y-buttons input").button();
-    var x_cheked = $("#"+c_flag+"x-buttons input:checked").val();
-    var y_cheked = $("#"+c_flag+"y-buttons input:checked").val();
-    createGraph(poke_data, x_cheked, y_cheked, -1, -1, selected_evolutions, selected_types, c_flag);
+    $("#x-buttons input").button();
+    $("#y-buttons input").button();
+    var x_cheked = $("#x-buttons input:checked").val();
+    var y_cheked = $("#y-buttons input:checked").val();
+    createGraph(poke_data, x_cheked, y_cheked, -1, -1, selected_evolutions, selected_types);
   });
 
 
   // ----------- 進化のボタン設定 --------------
-  $("#"+c_flag+"evolve-select-area")
+  $("#evolve-select-area")
   .off("change")
   .on("change",function(){
     // offでなぜか解除されるので
-    $("#"+c_flag+"select-buttons-area input").button();
+    $("#select-buttons-area input").button();
     var checked_evolve = [];
-    $("#"+c_flag+"evolve-select-area input:checked").each(function(){
+    $("#evolve-select-area input:checked").each(function(){
       checked_evolve.push( $(this).attr('value') );
     });
-    createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max, checked_evolve, selected_types, c_flag);
+    createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max, checked_evolve, selected_types);
   });
 
 
   // ----------- タイプのボタン設定 --------------
-  $("#"+c_flag+"type-select-area")
+  $("#type-select-area")
   .off("change")
   .on("change",function(){
     // offでなぜか解除されるので
-    $("#"+c_flag+"type-buttons-area input").button();
+    $("#type-buttons-area input").button();
     var checked_types = [];
-    $("#"+c_flag+"type-select-area input:checked").each(function(){
+    $("#type-select-area input:checked").each(function(){
       checked_types.push( $(this).attr('value') );
     });
-    createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max, selected_evolutions, checked_types, c_flag);
+    createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max, selected_evolutions, checked_types);
   });
 
-  $("#"+c_flag+"type-select-area .clear-button")
-  .off("click")
-  .on("click",function(){
-    // check全解除
-    $("#"+c_flag+"type-select-area input").prop("checked",false);
-    // jquery-uiのinputはラベルのCSSをいじってるのでラベルも操作する必要あり
-    $("#"+c_flag+"type-select-area label").removeClass("ui-state-active");
-    createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max, selected_evolutions, [], c_flag);
-  });
 
   // -------------- スケールの設定 --------------
   var xScale = d3.scale.linear()
@@ -200,11 +174,8 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
 
   // -------------- 点の描画 --------------
   var tooltip = d3.select("body").select("#tooltip");
-  var c_tooltip = d3.select("body").select("#c-tooltip");
 
-
-
-  curr_svg.selectAll("circle")
+  svg.selectAll("circle")
   .data(showed_pokes)
   .enter()
   .append("circle")
@@ -222,25 +193,14 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
     d3.select(this).attr("r",8);
     // 参考: http://bl.ocks.org/hunzy/8647349
     // http://ajimonster.com/tool/html5_development_JS6.html
-    if( c_flag == ""){
-      tooltip.style("visibility", "visible").text(d["name"]);
-      tooltip.style("top", ((arguments.callee.caller.arguments[0]||event).pageY-20)+"px")
-      .style("left",((arguments.callee.caller.arguments[0]||event).pageX+10)+"px");
-    }
-    else{
-      c_tooltip.style("visibility", "visible").text(d["name"]);
-      c_tooltip.style("top", ((arguments.callee.caller.arguments[0]||event).pageY-20)+"px")
-      .style("left",((arguments.callee.caller.arguments[0]||event).pageX+10)+"px");
-    }
+    tooltip.style("visibility", "visible").text(d["name"]);
+    tooltip.style("top", ((arguments.callee.caller.arguments[0]||event).pageY-20)+"px")
+    .style("left",((arguments.callee.caller.arguments[0]||event).pageX+10)+"px");
+    console.log(d);
   })
   .on("mouseout",function(){
     d3.select(this).attr("r",4);
-    if( c_flag == "" ){
-      tooltip.style("visibility", "hidden");
-    }
-    else{
-      c_tooltip.style("visibility", "hidden");
-    }
+    tooltip.style("visibility", "hidden");
   })
   .attr("id",function(d){return "circle-" + d["id"];})
   .attr("opacity",0.8)
@@ -248,7 +208,6 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
 
 
   // -------------- 軸の描画 --------------
-
   var xAxis = d3.svg.axis()
   .scale(xScale)
   .orient("bottom")
@@ -259,12 +218,12 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
   .orient("left")
   .ticks(8);
 
-  curr_svg.append("g")
+  svg.append("g")
   .attr("class", "axis")
   .attr("transform", "translate(0," + (h - padding) + ")")
   .call(xAxis);
 
-  curr_svg.append("g")
+  svg.append("g")
   .attr("class", "axis")
   .attr("transform", "translate(" + padding + ",0)")
   .call(yAxis);
@@ -275,14 +234,14 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
   var start_point = [0,0];
   var end_point = [0,0];
   var rect_x, rect_y, rect_w, rect_h;
-  curr_svg.on("mousedown", function(){
+  svg.on("mousedown", function(){
     start_point[0] = d3.mouse(this)[0];
     start_point[1] = d3.mouse(this)[1];
     drag_flag = 1;
   })
   .on("mousemove", function(){
     if(drag_flag == 0) return;
-    curr_svg.selectAll(".selection").remove();
+    svg.selectAll(".selection").remove();
     end_point = [0,0];
     end_point[0] = d3.mouse(this)[0];
     end_point[1] = d3.mouse(this)[1];
@@ -291,7 +250,7 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
     rect_y = Math.min(start_point[1],end_point[1]);
     rect_w = Math.abs(start_point[0] - end_point[0]);
     rect_h = Math.abs(start_point[1] - end_point[1]);
-    curr_svg.append("rect")
+    svg.append("rect")
     .attr({
       x: rect_x,
       y: rect_y,
@@ -325,10 +284,10 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
 
 
   // ---------- ポケモン検索の設定 -------------
-  $("#"+c_flag+"search-area button")
+  $("#search-area button")
   .off("click")
   .on("click",function(){
-    var input_text = $("#"+c_flag+"search-area input").val();
+    var input_text = $("#search-area input").val();
     var input_poke;
     for( var i = 0 ; i < showed_pokes.length ; i++ ){
       var tmp_poke = showed_pokes[i];
@@ -343,10 +302,9 @@ function createGraph(poke_data, x_value, y_value, selected_x_max, selected_y_max
     var x_point = xScale(input_poke_x);
     var y_point = yScale(input_poke_y);
     console.log(x_point,y_point);
-    var c_flag_int = (c_flag=="") ? 1 : 0;
-    particle(c_flag_int,x_point,y_point);
+    particle(x_point,y_point);
     for( var i = 1 ; i < 4 ; i++ ){
-      setTimeout("particle(" + c_flag_int + "," + x_point + "," + y_point + ")", 1000*i);
+      setTimeout("particle("+ x_point + "," + y_point + ")", 1000*i);
     }
   });
 
@@ -428,9 +386,8 @@ function type_to_color(type_name){
 
 // ------------ particleのエフェクト ---------------
 // 参考:http://bl.ocks.org/mbostock/1062544
-function particle(c_flag_int,cx,cy) {
-  var curr_svg = (c_flag_int==1) ? svg : c_svg;
-  curr_svg.append("circle")
+function particle(cx,cy) {
+  svg.append("circle")
   .attr("cx", cx)
   .attr("cy", cy)
   .attr("r", 1e-6)
